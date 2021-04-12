@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/CorCentric/bin
+/CorCentric/.vs/CorCentric/v16
+/CorCentric/obj
