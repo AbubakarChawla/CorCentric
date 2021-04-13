@@ -11,7 +11,7 @@ namespace CorCentric.PageObjects
         private IWebDriver driver;
 
         [FindsBy(How = How.XPath, Using = @"//*[@id=""app""]/div/div/div[2]/div[1]/div/div/div[2]/div")]
-        private IWebElement PracticeFormXpath;
+        private IWebElement PracticeForm;
 
         public Forms(IWebDriver driver)
         {
@@ -21,7 +21,7 @@ namespace CorCentric.PageObjects
 
         public PracticeForm OpenPracticeForm()
         {
-            PracticeFormXpath.Click();
+            PracticeForm.Click();
             return new PracticeForm(driver);
         }
     }

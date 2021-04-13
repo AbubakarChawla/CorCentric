@@ -30,7 +30,6 @@ namespace CorCentric
 
         [FindsBy(How = How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[1]/label")]
         private IWebElement MaleRadioButton;
-
         [FindsBy(How = How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[2]/label")]
         private IWebElement FemaleRadioButton;
         [FindsBy(How = How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[3]/label")]
