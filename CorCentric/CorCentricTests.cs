@@ -1,3 +1,4 @@
+using CorCentric.PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -7,33 +8,27 @@ namespace CorCentric
     public class CorCentricTests
     {
         IWebDriver driver;
+        Homepage homePage;
+        Forms forms;
         PracticeForm practiceForm;
 
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver(@"C:\Users\Hp\Downloads\chromedriver_win32");
-            practiceForm = new PracticeForm(driver);
+            driver = new ChromeDriver();
+            homePage = new Homepage(driver);
+            homePage.OpenPage();
+            forms = homePage.OpenForms();
+            practiceForm = forms.OpenPracticeForm();
         }
 
-        static object[] Student =
-        {
-            new object[] { "Ali", "Ahmed", "34401234567", "Male"},
-            new object[] { "Kashif", "ALi", "3001234567", "Female"},
-            new object[] { "Kashif", "ALi", "3001234567", "Others"}
-        };
-
         //Case1
-        [TestCaseSource("Student")]
-        public void FormSubmit(string firstName, string lastName, string mobileNumber, string Gender)
+        [Test]
+        public void FormSubmit()
         {
-
-            practiceForm.OpenPage();
-            practiceForm.OpenForms();
-            practiceForm.OpenPracticeForm();
-            practiceForm.FillForm(firstName, lastName, mobileNumber, Gender);
+            practiceForm.FillForm(Student.Create("Ali", "Ahmed", "Male", "34401234567"));
             practiceForm.Submit();
-            Assert.AreEqual(true, practiceForm.IsLoginSuccessful());
+            Assert.AreEqual(true, practiceForm.IsSubmissionSuccessful());
         }
 
         //Case2
@@ -41,12 +36,7 @@ namespace CorCentric
         public void ValidateFields()
         {
             var InvalidFieldColor = "rgb(220, 53, 69)";
-            practiceForm.OpenPage();
-            practiceForm.OpenForms();
-            practiceForm.OpenPracticeForm();
-            practiceForm.FillForm(string.Empty, string.Empty, string.Empty, string.Empty);
             practiceForm.Submit();
-
             Assert.AreEqual(InvalidFieldColor, practiceForm.GetFirstNameColor()); //Validate FirstName
             Assert.AreEqual(InvalidFieldColor, practiceForm.GetLastNameColor()); //Validate LastName
             Assert.AreEqual(true, practiceForm.IsGenderValidated());//Validate Gender

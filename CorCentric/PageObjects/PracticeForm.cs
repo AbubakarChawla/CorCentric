@@ -1,25 +1,18 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
-using SeleniumExtras.WaitHelpers;
-using System;
 using System.Threading;
 
 namespace CorCentric
 {
-    class PracticeForm
+    public class PracticeForm
     {
         private IWebDriver driver;
+
         public PracticeForm(IWebDriver driver)
         {
             this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
-
-        [FindsBy(How = How.XPath, Using = @"//*[@id=""app""]/div/div/div[2]/div/div[2]/div")]
-        private IWebElement Forms;
-        [FindsBy(How = How.XPath, Using = @"//*[@id=""app""]/div/div/div[2]/div[1]/div/div/div[2]/div")]
-        private IWebElement PracticeFormXpath;
 
         [FindsBy(How = How.Id, Using = "firstName")]
         private IWebElement FirstName;
@@ -35,8 +28,9 @@ namespace CorCentric
         [FindsBy(How = How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[3]")]
         private IWebElement OtherGender;
 
-        [FindsBy(How =How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[1]/label")]
+        [FindsBy(How = How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[1]/label")]
         private IWebElement MaleRadioButton;
+
         [FindsBy(How = How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[2]/label")]
         private IWebElement FemaleRadioButton;
         [FindsBy(How = How.XPath, Using = @"//*[@id=""genterWrapper""]/div[2]/div[3]/label")]
@@ -48,38 +42,23 @@ namespace CorCentric
         [FindsBy(How = How.XPath, Using = @"/html/body/div[3]/div/div")]
         private IWebElement Submitted;
 
-        public void OpenPage()
+        public void FillForm(Student student)
         {
-            driver.Navigate().GoToUrl("https://demoqa.com/");
-        }
+            FirstName.SendKeys(student.FirstName);
+            LastName.SendKeys(student.LastName);
+            UserNumber.SendKeys(student.MobileNumber);
 
-        public void OpenForms()
-        {
-            Forms.Click();
-        }
-
-        public void OpenPracticeForm()
-        {
-            PracticeFormXpath.Click();
-        }
-
-        public void FillForm(string firstName, string lastName, string mobileNumber, string Gender)
-        {
-            FirstName.SendKeys(firstName);
-            LastName.SendKeys(lastName);
-            UserNumber.SendKeys(mobileNumber);
-
-            if(Gender=="Male")
+            if (student.Gender == "Male")
             {
                 Male.Click();
             }
 
-            else if(Gender=="Female")
+            else if (student.Gender == "Female")
             {
                 Female.Click();
             }
-            
-            else if(Gender == "Others")
+
+            else if (student.Gender == "Others")
             {
                 OtherGender.Click();
             }
@@ -91,7 +70,7 @@ namespace CorCentric
             Thread.Sleep(2000);
         }
 
-        public bool IsLoginSuccessful()
+        public bool IsSubmissionSuccessful()
         {
             return Submitted.Displayed;
         }
